@@ -1,6 +1,6 @@
 import { ChevronRight } from "lucide-react";
-import { useState, useNavigate } from "react"
-import { Link } from "react-router-dom"
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 export const AuthScreen = () => {
   const [email,setEmail]=useState('');
   const navigate=useNavigate();
