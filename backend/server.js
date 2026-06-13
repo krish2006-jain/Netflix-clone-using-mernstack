@@ -26,15 +26,13 @@ app.use("/api/v1/movie", protectRoute, movieRoutes);
 app.use("/api/v1/tv", protectRoute, tvRoutes);
 app.use("/api/v1/search", protectRoute, searchRoutes);
 
-// Serve React frontend in production
-if (ENV_VARS.NODE_ENV === 'production') {
-  const frontendDistPath = path.join(__dirname, '../frontend/dist');
-  app.use(express.static(frontendDistPath));
-  // All non-API routes served by React
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendDistPath, 'index.html'));
-  });
-}
+// Serve React frontend
+const frontendDistPath = path.join(__dirname, '../frontend/dist');
+app.use(express.static(frontendDistPath));
+// SPA fallback — must use app.use() not app.get('*') in Express 5
+app.use((req, res) => {
+  res.sendFile(path.join(frontendDistPath, 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
